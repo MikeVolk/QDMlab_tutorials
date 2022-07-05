@@ -1,0 +1,24 @@
+offsetx	0.00000000
+offsety	0.00000000
+width	1920.00000000
+height	1200.00000000
+exptime (us)	6000.00000000
+mwpow (dBm)	-10.00000000
+numfreqs	51.00000000
+normalize?	0.00000000
+reffreq (Hz)	0.00000000
+numsweepstoavg	12.00000000
+numsweepsdone	24.00000000
+startfreq1 (Hz)	2837000000.00000000
+endfreq1 (Hz)	2850000000.00000000
+startfreq2 (Hz)	2887000000.00000000
+endfreq2 (Hz)	2900000000.00000000
+which freqs?	2.00000000
+MWsettlingTime (s)	0.00152000
+cameraFrameTime (s)	0.00650000
+framePairsPerFreq	40.00000000
+coilPol	0.00000000
+xCoil (mA)	20.00000000
+yCoil (mA)	1500.00000000
+zCoil (mA)	975.00000000
+sweepTime (ms)	69533.00000000

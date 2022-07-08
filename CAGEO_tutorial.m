@@ -102,20 +102,25 @@ globalFraction_estimator("binSize",1, "nRes", 1, "nRun", 1)
 %       executing it, since the data has already been calculated (i.e. 
 %       see 1x1Binned/4x4Binned folders)
 
-% all_fits = ODMR_to_B111('nFolders', nFolders, ... % a cell of paths
-%      'binSizes', [1 4], ... % cell of integers. Here we chose 1 to show the unbinned data, and 4 (commonly used)
-%      'fieldPolarity', 0, ... % default: 0 = neg & pos; less common: 1 = neg, 2 = pos, (unusual 4 = nppn)
-%      'type', 2, ... % default: 2; fitting type, in most cases type = 2
-%      'globalFraction', 0.25, ... % default: 0.25; the ammount of global fluorescence as a ratio to the sample signal
-%      'checkPlot', false, ... % default: false; 
-%      'save', 1, ...
-%      'diamond', 'N14');
+all_fits = ODMR_to_B111('nFolders', nFolders, ... % a cell of paths
+     'binSizes', [1 4], ... % cell of integers. Here we chose 1 to show the unbinned data, and 4 (commonly used)
+     'fieldPolarity', 0, ... % default: 0 = neg & pos; less common: 1 = neg, 2 = pos, (unusual 4 = nppn)
+     'type', 2, ... % default: 2; fitting type, in most cases type = 2
+     'globalFraction', 0.25, ... % default: 0.25; the ammount of global fluorescence as a ratio to the sample signal
+     'checkPlot', false, ... % default: false; 
+     'save', 1, ...
+     'diamond', 'N14');
 
-% Alternatively you can execute the following line. 
-% We have pre-calculated some of the fits as they are returned by the previous line. 
-all_fits = load(fullfile(dataFolder, 'data', 'data_all_fits.mat'), 'fits');
-all_fits = all_fits.fits
+%% If no GPU is available
+% We have pre-calculated the fits for all of the measurements. They are
+% stored in the `1x1Binned` and `4x4Binned` folders within each measurement
+% folder. The output of the line above will be similar to:
 
+all_fits{1,1} = load(fullfile(dataFolder, "data","complex_map_analysis","MIL03346_NRM","1x1Binned", "final_fits_(1x1).mat"));
+all_fits{1,2} = load(fullfile(dataFolder, "data","complex_map_analysis","MIL03346_NRM","4x4Binned", "final_fits_(4x4).mat"));
+all_fits{2,1} = load(fullfile(dataFolder, "data","complex_map_analysis","MIL03346_AF28mT","1x1Binned", "final_fits_(1x1).mat"));
+all_fits{2,2} = load(fullfile(dataFolder, "data","complex_map_analysis","MIL03346_AF28mT","4x4Binned", "final_fits_(4x4).mat"));
+   
 % If ODMR_to_B111 is called with n folders and m bins, ODMR_to_B111 will 
 % return a (n x m) cell of the data that is ultimately stored in 
 % final_fits_(mxm).mat.

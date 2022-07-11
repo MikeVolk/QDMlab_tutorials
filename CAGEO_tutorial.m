@@ -12,10 +12,15 @@ Pauli Kehayias (1,3), David R. Glenn (1,4) and Eduardo A. Lima (5)
 (5) Department of Earth, Atmospheric, and Planetary Sciences, Massachusetts Institute of Technology, 77 Massachusetts Avenue - Bldg 54,Cambridge, 02139, Massachusetts, USA
 %}
 
+%% DOWNLOAD TUTORIAL DATA
 % A set of test data can be downloaded from 
-% https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MPMNZI 
-% (Note: raw QDM data is rather big (several Gb). Downloads can take a long 
+web('https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/MPMNZI')
+% Please Download all 4 zip files and unzip them into a folder somewhere on
+% your computer.
+% NOTE: raw QDM data is rather big (several Gb). Downloads can take a long 
 % time depending on the internet speed.)
+
+%%
 close all; clc
 %% Setting the data paths 
 % Please set dataFolder to be the absolute path to the example data.
@@ -71,7 +76,7 @@ linkaxes([ax1 ax2])
 % The mean measured (normalized) spectrum for this particular field 
 % direction looks like:
 close all; clc;
-plot(raw_data.freqList, [raw_data.disp1, raw_data.disp2],'LineWidth',2)
+plot(raw_data.freqList, [mean(raw_data.imgStack1, [2], 'omitnan'); mean(raw_data.imgStack2, [2], 'omitnan')],'LineWidth',2)
 title('Mean spectrum of all 2.3e6 pixel'); xlabel('f (Hz)'); ylabel('contrast')
 
 %% Single Pixel Spectrum
@@ -84,14 +89,17 @@ plot(raw_data.freqList, [raw_data.imgStack1(:, idx); raw_data.imgStack2(:, idx)]
     LineWidth=2)
 title(['pixel #' num2str(idx)]); xlabel('f (Hz)'); ylabel('contrast')
 
+%% Check ODMR
+% With check_ODMR you can look at the spectra of idividual pixels
+% All the raw data needs to be loaded, this may take some time.
+check_ODMR(fullfile(dataFolder, "data","dipole_inversion","Spherule_IRM1T"))
+
 % Each pixel needs to be fitted with either a triplet (N14) or doublet (N15) 
 % on both sides of the spectrum. The fitting is done using ODMR_to_B111.
-
 %% From ODMR spectra to B111 data
 % Before you can calculate the B111 data from the ODMR spectra, you need to
 % determine the global fluorescence fraction in the sample. 
 globalFraction_estimator("binSize",1, "nRes", 1, "nRun", 1)
-
 %% 
 % This section shows you how to calculate the B_{111} data from the raw ODMR 
 % spectra.

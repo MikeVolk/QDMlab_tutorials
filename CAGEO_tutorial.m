@@ -104,7 +104,14 @@ check_ODMR(fullfile(dataFolder, "data","dipole_inversion","Spherule_IRM1T"))
 %% From ODMR spectra to B111 data
 % Before you can calculate the B111 data from the ODMR spectra, you need to
 % determine the global fluorescence fraction in the sample. 
+% With the globalFraction_extimator you can select a run_*.mat file and use
+% a GUI to find the fitting globalFraction. The value can then be used to
+% calculate the B111 fields more accurately.
+% Try selecting the run_0000.mat file in the complex_analysis/MIL03346_NRM
+% folder. Here, a value of around 0.3 gives reasonable results.
+
 globalFraction_estimator("binSize",1, "nRes", 1, "nRun", 1)
+
 %% 
 % This section shows you how to calculate the B_{111} data from the raw ODMR 
 % spectra.
@@ -119,7 +126,7 @@ all_fits = ODMR_to_B111('nFolders', nFolders, ... % a cell of paths
      'binSizes', [1 4], ... % cell of integers. Here we chose 1 to show the unbinned data, and 4 (commonly used)
      'fieldPolarity', 0, ... % default: 0 = neg & pos; less common: 1 = neg, 2 = pos, (unusual 4 = nppn)
      'type', 2, ... % default: 2; fitting type, in most cases type = 2
-     'globalFraction', 0.25, ... % default: 0.25; the ammount of global fluorescence as a ratio to the sample signal
+     'globalFraction', 0.3, ... % default: 0.25; the ammount of global fluorescence as a ratio to the sample signal
      'checkPlot', false, ... % default: false; 
      'save', 1, ...
      'diamond', 'N14');
@@ -200,13 +207,19 @@ QDM_figure(filteredData{1}.B111ferro, 'preThreshold', 0, 'unit', 'nT', ...
 %% Bz Conversion
 % QDMdataprocessing automates the conversion process of B111 data into a 
 % Bz map of remanent or induced signal (Fu et al., 2020).
+% First, lets calculate Bz from the unfiltered data. Find the
+% 'B111dataToPlot.mat' file in
+% 'complex_map_analysis\MIL03346_NRM\4x4Binned'
 QDMdataprocessing % unfiltered
 %%
+% Now, lets do the same B111 to Bz conversion from the thresholded data.
+% To do that, find the 'B111dataToPlot_thresh(5).mat' file in
+% 'complex_map_analysis\MIL03346_NRM\4x4Binned'
 QDMdataprocessing % filtered
 %%
 data = load(fullfile(dataFolder, "data","complex_map_analysis", ...
                      "MIL03346_NRM","4x4Binned","Bz_uc0.mat"));
-QDM_figure(data.Bz, 'unit','muT', 'scaleBar',500)
+QDM_figure(data.Bz, 'unit','G', 'scaleBar',500)
 
 %% Analysis
 %% Quantitative Analysis
